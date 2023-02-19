@@ -30,8 +30,8 @@ const passwordReducer = (state, action) => {
 const Login = (props) => {
   // const [enteredEmail, setEnteredEmail] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState();
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [passwordIsValid, setPasswordIsValid] = useState();
+  // const [enteredPassword, setEnteredPassword] = useState('');
+  // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
@@ -44,19 +44,14 @@ const Login = (props) => {
     isValid: null,
   });
 
-  useEffect(() => {
-    console.log('EFFECT RUNNING');
-
-    return () => {
-      console.log('EFFECT CLEANUP');
-    };
-  }, []);
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
 
   useEffect(() => {
     const identifier = setTimeout(() => {
       console.log('Checking form validity!');
       setFormIsValid(
-        emailState.isValid && passwordState.isValid
+        emailIsValid && passwordIsValid
       );
     }, 500);
 
@@ -64,7 +59,7 @@ const Login = (props) => {
       console.log('CLEANUP');
       clearTimeout(identifier);
     };
-  }, [emailState, passwordState]);
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type: 'USER_INPUT', val: event.target.value});
